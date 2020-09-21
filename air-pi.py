@@ -1,4 +1,6 @@
 import serial
+import aqi
+import datetime
 from time import sleep
 
 # Specify serial port address
@@ -12,14 +14,12 @@ try:
     ser.write([66, 77, 225, 0, 0, 1, 112])   # put sensor in passive mode
     sleep(data_delay)
     while True:     
-        print("start new cycle")
         ser.flushInput()
         ser.write([66, 77, 226, 0, 0, 1, 113])   # ask for data
         s = ser.read(32)
-        print(s[0],'-',s[1])
+        print(datetime.datetime.now())
         # Check if data header is correct
         if ord(s[0]) == int("42",16) and ord(s[1]) == int("4d",16):
-            print("Header is correct")
             cs = (ord(s[30]) * 256 + ord(s[31]))   # check sum
             # Calculate check sum value
             check = 0
@@ -68,6 +68,9 @@ try:
                 part_10_hb = ord(s[26])
                 part_10_lb = ord(s[27])
                 part_10 = int(part_10_hb * 256 + part_10_lb)
+                
+                #sAir Quality Index
+                aqi_pi = aqi.to_aqi([(aqi.POLLUTANT_PM25, pm25_std),(aqi.POLLUTANT_PM10, pm10_std)])
 
                 print("Standard particle:")
                 print("PM1:", pm1_std, "ug/m^3  PM2.5:", pm25_std, "ug/m^3  PM10:", pm10_std, "ug/m^3")
@@ -75,6 +78,9 @@ try:
                 print("PM1:", pm1_atm, "ug/m^3  PM2.5:", pm25_atm, "ug/m^3  PM10:", pm10_atm, "ug/m^3")
                 print("Number of particles:")
                 print(">0.3:", part_03, " >0.5:", part_05, " >1.0:", part_1, " >2.5:", part_25, " >5:", part_5, " >10:", part_10)
+                print("Air quality Index")
+                print("AQI:", str(aqi_pi))
+                print("-----------------------------------------------")
                 sleep(data_delay)
 except KeyboardInterrupt:
     ser.close()
