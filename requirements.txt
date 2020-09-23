@@ -1,2 +1,5 @@
 python-aqi==0.6.1
 pyserial==3.4
+RPi.GPIO==0.7.0
+Adafruit-SSD1306==1.6.2
+Pillow==2.2.2
