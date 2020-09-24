@@ -26,6 +26,7 @@ def main():
             "-------------------",
             pm25DisplayLine,
             pm10DisplayLine,
+            "-------------------",
             "powered by AIR-PI"]
         Display1306Controller.displayLines(disp, lines)
 
