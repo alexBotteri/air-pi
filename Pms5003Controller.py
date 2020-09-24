@@ -1,5 +1,4 @@
 import serial
-import aqi
 import datetime
 from time import sleep
 
@@ -13,7 +12,7 @@ def setPMSSensorInPassiveMode(ser):
     ser.write([66, 77, 225, 0, 0, 1, 112])   # put sensor in passive mode
 
 def readDataFromPMSSensor(ser):
-    try:     
+    try:
         ser.flushInput()
         ser.write([66, 77, 226, 0, 0, 1, 113])   # ask for data
         s = ser.read(32)
@@ -37,7 +36,7 @@ def readDataFromPMSSensor(ser):
                 pm10_hb_std = ord(s[8])
                 pm10_lb_std = ord(s[9])
                 pm10_std = float(pm10_hb_std * 256 + pm10_lb_std)
-                
+
                 # PM1, PM2.5 and PM10 values for atmospheric conditions in ug/m^3
                 pm1_hb_atm = ord(s[10])
                 pm1_lb_atm = ord(s[11])
@@ -68,20 +67,10 @@ def readDataFromPMSSensor(ser):
                 part_10_hb = ord(s[26])
                 part_10_lb = ord(s[27])
                 part_10 = int(part_10_hb * 256 + part_10_lb)
-                
-                #sAir Quality Index
-                aqi_pi = aqi.to_aqi([(aqi.POLLUTANT_PM25, pm25_std),(aqi.POLLUTANT_PM10, pm10_std)])
-
-                print("Standard particle:")
-                print("PM1:", pm1_std, "ug/m^3  PM2.5:", pm25_std, "ug/m^3  PM10:", pm10_std, "ug/m^3")
-                print("Atmospheric conditions:")
-                print("PM1:", pm1_atm, "ug/m^3  PM2.5:", pm25_atm, "ug/m^3  PM10:", pm10_atm, "ug/m^3")
-                print("Number of particles:")
-                print(">0.3:", part_03, " >0.5:", part_05, " >1.0:", part_1, " >2.5:", part_25, " >5:", part_5, " >10:", part_10)
-                print("Air quality Index")
-                print("AQI:", str(aqi_pi))
-                print("-----------------------------------------------")
-                return {'aqi': str(aqi_pi)}
+                return {
+                    'pm1': str(pm1_std), 'pm25': str(pm25_std), 'pm10': str(pm10_std),
+                    'part03': str(part_03), 'part05': str(part_05), 'part1': str(part_1), 'part25': str(part_25),
+                    'part5': str(part_5), 'part10': str(part_10)}
     except KeyboardInterrupt:
         ser.close()
         print("Serial port closed")

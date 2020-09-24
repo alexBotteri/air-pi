@@ -36,7 +36,8 @@ def displayLines(disp, lines):
     draw.text((x, top+16),    lines[2],  font=font, fill=255)
     draw.text((x, top+25),    lines[3],  font=font, fill=255)
     draw.text((x, top+34),    lines[4],  font=font, fill=255)
-   
+    draw.text((x, top+43),    lines[5],  font=font, fill=255)
+
     # Display image.
     disp.image(image1)
     disp.display()
