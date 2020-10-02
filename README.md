@@ -1,6 +1,8 @@
 # AIR-PI README
 Air-Pi is a DIY project to monitor the Air Quality. It uses the Raspberry pi, a cheap air quality sensor, and small display.
 
+<img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/IMG_6815D.jpeg?raw=true" width="450">
+
 ## Hardware
 
 ### Raspberry pi:
