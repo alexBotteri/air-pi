@@ -33,6 +33,9 @@ https://www.uctronics.com/index.php/uctronics-0-96-inch-oled-module-12864-128x64
 ### Launch
 > python air-pi.py
 
+Launch in background :
+> nohup python air-pi.py &
+
 ### Credits
 
 - Code for the Sensor Controller: 
