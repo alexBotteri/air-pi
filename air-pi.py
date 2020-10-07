@@ -1,6 +1,7 @@
 import Pms5003Controller
 import Display1306Controller
 import aqi
+from collections import OrderedDict
 from time import sleep
 
 def main():
@@ -51,16 +52,16 @@ def printAqiConsole(aqi_pi, pm1_std, pm25_std, pm10_std, part_03, part_05, part_
 
 #Match the AQI to the concern level
 def aqiScoreConcern(aqi):
-    concernMapping = {
-        '50': 'Good',
-        '100': 'Moderate',
-        '150': 'Unhealthy for SG',
-        '200': 'Unhealthy',
-        '300': 'Very unhealthy',
-        '999999': 'Hazardous'}
-
-    for score in concernMapping:
-        if int(aqi) < int(score):
-            return concernMapping[score]
+    concernMappingDict = {
+        50: 'Good',
+        100: 'Moderate',
+        150: 'Unhealthy for SG',
+        200: 'Unhealthy',
+        300: 'Very unhealthy',
+        999999: 'Hazardous'}
+    sortedConcernMappingDict = OrderedDict(sorted(concernMappingDict.items(), key=lambda x:int(x[0])))
+    for score in sortedConcernMappingDict:
+        if int(aqi) < score:
+            return sortedConcernMappingDict[score]
 
 main()
