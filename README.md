@@ -1,7 +1,7 @@
 # AIR-PI README
-Air-Pi is a DIY project to monitor the Air Quality. It uses the Raspberry pi, a cheap air quality sensor, and small display.
+Air-Pi is a DIY project to monitor the Air Quality. It uses the Raspberry pi, a cheap air quality sensor, and small display. The case is 3d printed.
 
-<img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/air-pi_pic.jpeg?raw=true" width="450">
+<img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/air-pi_pic.jpeg?raw=true" width="450">  <img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/air-pi-case_pic.jpg?raw=true" width="450"> 
 
 ## Hardware
 
@@ -27,6 +27,8 @@ https://shop.pimoroni.com/products/particulate-matter-sensor-breakout
 - UCTRONICS 0.96 Inch OLED Module 12864 128x64 Yellow Blue SSD1306 - Driver I2C Serial
 https://www.uctronics.com/index.php/uctronics-0-96-inch-oled-module-12864-128x64-yellow-blue-ssd1306-driver-i2c-serial-self-luminous-display-board-for-arduino-raspberry-pi.html
 
+### Case - 3d print:
+The case was designed using Sketchup. It is divided into 2 parts, the .stl are provided [here](https://github.com/alexBotteri/air-pi/tree/master/case-3d).
 
 ## Software
 
