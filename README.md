@@ -38,6 +38,12 @@ The case was designed using Sketchup. It is divided into 2 parts, the .stl are p
 Launch in background :
 > nohup python air-pi.py &
 
+### Launch at Boot (with a Cron job)
+> crontab -e
+
+add to the file:
+> @reboot /usr/bin/python /home/pi/air-pi/air-pi.py
+
 ### Credits
 
 - Code for the Sensor Controller:
