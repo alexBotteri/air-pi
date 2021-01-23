@@ -42,7 +42,7 @@ Launch in background :
 > crontab -e
 
 add to the file:
-> @reboot /usr/bin/python /home/pi/air-pi/air-pi.py
+> @reboot /usr/bin/python [directory]/air-pi.py
 
 ### Credits
 
