@@ -32,6 +32,8 @@ The case was designed using Sketchup. It is divided into 2 parts, the .stl are p
 
 ## Software
 
+-- tested with Python 3.7 --
+
 ### Install dependencies
 > pip3 install -r requirements.txt
 
@@ -45,7 +47,7 @@ Launch in background :
 > crontab -e
 
 add to the file:
-> @reboot /usr/bin/python [directory]/air-pi.py
+> @reboot /usr/bin/python3.7 [directory]/air-pi.py
 
 ### Credits
 
