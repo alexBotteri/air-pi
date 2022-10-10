@@ -1,7 +1,7 @@
 # AIR-PI README
 Air-Pi is a DIY project to monitor the Air Quality. It uses the Raspberry pi, a cheap air quality sensor, and small display. The case is 3d printed.
 
-<img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/air-pi_pic.jpeg?raw=true" width="450">  <img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/air-pi-case_pic.jpg?raw=true" width="450"> 
+<img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/air-pi_pic.jpeg?raw=true" width="450">  <img src="https://github.com/alexBotteri/air-pi/blob/master/docs/pictures/air-pi-case_pic.jpg?raw=true" width="450">
 
 ## Hardware
 
@@ -32,8 +32,11 @@ The case was designed using Sketchup. It is divided into 2 parts, the .stl are p
 
 ## Software
 
+### Install dependencies
+> pip3 install -r requirements.txt
+
 ### Launch
-> python air-pi.py
+> python3.7 air-pi.py
 
 Launch in background :
 > nohup python air-pi.py &
