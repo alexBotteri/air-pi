@@ -1,5 +1,6 @@
 import Pms5003Controller
 import Display1306Controller
+import Bm680Controller
 import aqi
 from collections import OrderedDict
 from time import sleep
@@ -8,29 +9,48 @@ def main():
     ser = Pms5003Controller.configSerialPort()
     Pms5003Controller.setPMSSensorInPassiveMode(ser)
     disp = Display1306Controller.setupDisplay()
-
+    bm680Controller = Bm680Controller.Bm680Controller()
+    toggledScreen = True
+    
     while True:
         sleep(5)
-        pmsData = Pms5003Controller.readDataFromPMSSensor(ser)
-        pmAqi = aqiScore(pmsData['pm25'], pmsData['pm10'])
-        aqiConcernDisplayLine = aqiScoreConcern(pmAqi)
-        aqiDisplayLine = "AQI: " + pmAqi
-        pm25DisplayLine = "PM2.5(ug/m3): " + pmsData['pm25']
-        pm10DisplayLine = "PM10(ug/m3): " + pmsData['pm10']
-        printAqiConsole(pmAqi, pmsData['pm1'], pmsData['pm25'],
-            pmsData['pm10'], pmsData['part03'], pmsData['part05'],
-            pmsData['part1'], pmsData['part25'],pmsData['part5'],
-            pmsData['part10'])
-        lines = [
-            aqiConcernDisplayLine,
-            aqiDisplayLine,
-            "-------------------",
-            pm25DisplayLine,
-            pm10DisplayLine,
-            "-------------------",
-            "powered by AIR-PI"]
-        Display1306Controller.displayLines(disp, lines)
-
+        if toggledScreen:
+           pmsData = Pms5003Controller.readDataFromPMSSensor(ser)
+           pmAqi = aqiScore(pmsData['pm25'], pmsData['pm10'])
+           aqiConcernDisplayLine = aqiScoreConcern(pmAqi)
+           aqiDisplayLine = "AQI: " + pmAqi
+           pm25DisplayLine = "PM2.5(ug/m3): " + pmsData['pm25']
+           pm10DisplayLine = "PM10(ug/m3): " + pmsData['pm10']
+           printAqiConsole(pmAqi, pmsData['pm1'], pmsData['pm25'],
+           pmsData['pm10'], pmsData['part03'], pmsData['part05'],
+           pmsData['part1'], pmsData['part25'],pmsData['part5'],
+           pmsData['part10'])
+           lines = [
+                aqiConcernDisplayLine,
+                aqiDisplayLine,
+                "-------------------",
+                pm25DisplayLine,
+                pm10DisplayLine,
+                "-------------------",
+                "powered by AIR-PI"]
+           Display1306Controller.displayLines(disp, lines)
+        else:
+            bm680Controller.read()
+            firstLine = 'temperature(C): ' + str(bm680Controller.temperature)
+            secondLine = 'pressure(hPa): ' + str(bm680Controller.pressure)
+            thirdLine = 'humidity(rH):' + str(bm680Controller.humidity)
+            lines = [
+                firstLine,
+                '-------------------',
+                secondLine,
+                '-------------------',
+                thirdLine,
+                '-------------------',
+                'powered by AIR-PI'
+                ]
+            Display1306Controller.displayLines(disp, lines)
+        toggledScreen = not toggledScreen
+                
 
 #Calculate Air Quality Index defined by EPA.gov
 def aqiScore(pm25, pm10):
