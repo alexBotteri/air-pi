@@ -18,7 +18,7 @@ def main():
            pmsData = Pms5003Controller.readDataFromPMSSensor(ser)
            pmAqi = aqiScore(pmsData['pm25'], pmsData['pm10'])
            aqiConcernDisplayLine = aqiScoreConcern(pmAqi)
-           aqiDisplayLine = "AQI: " + pmAqi
+           aqiDisplayLine = "Particule AQI: " + pmAqi
            pm25DisplayLine = "PM2.5(ug/m3): " + pmsData['pm25']
            pm10DisplayLine = "PM10(ug/m3): " + pmsData['pm10']
            printAqiConsole(pmAqi, pmsData['pm1'], pmsData['pm25'],
@@ -36,16 +36,18 @@ def main():
            Display1306Controller.displayLines(disp, lines)
         else:
             bm680Controller.read()
-            firstLine = 'temperature(C): ' + str(bm680Controller.temperature)
-            secondLine = 'pressure(hPa): ' + str(bm680Controller.pressure)
-            thirdLine = 'humidity(rH):' + str(bm680Controller.humidity)
+            temperatureDisplayLine = 'temperature(C): {:.1f}'.format(bm680Controller.temperature)
+            pressureDisplayLine = 'pressure(hPa): {:.0f}'.format(bm680Controller.pressure)
+            humidityDisplayLine = 'humidity(rH): {:.0f}%'.format(bm680Controller.humidity)
+            gasAqiDisplayLine = "Gas Aqi loading..." if bm680Controller.gasAqi == None else 'Gas Aqi:  {:.0f}%'.format(bm680Controller.gasAqi)
             lines = [
-                firstLine,
+                temperatureDisplayLine,
                 '-------------------',
-                secondLine,
+                pressureDisplayLine,
                 '-------------------',
-                thirdLine,
+                humidityDisplayLine,
                 '-------------------',
+                gasAqiDisplayLine,
                 'powered by AIR-PI'
                 ]
             Display1306Controller.displayLines(disp, lines)

@@ -3,13 +3,19 @@
 import bme680
 import time
 import smbus
+import bme680AqiTracker
 
 class Bm680Controller:
     temperature = 0
     pressure = 0
     humidity = 0
-    gasAqi = 0
+    gasAqi= 0
+
+    # see https://github.com/pimoroni/bme680-python
     sensor: bme680.BME680 = None
+    
+    # see https://github.com/thstielow/raspi-bme680-iaq
+    aqiTracker: bme680AqiTracker.IAQTracker = None
 
     def __init__(self):
         try:
@@ -54,10 +60,12 @@ class Bm680Controller:
         # with their own temperature and duration.
         # sensor.set_gas_heater_profile(200, 150, nb_profile=1)
         # sensor.select_gas_heater_profile(1)
+        
+        self.aqiTracker = bme680AqiTracker.IAQTracker()
 
     def read(self):
         try:
-            print('\n\nPolling:')
+            print('\n\nBME680 reading:')
             if self.sensor.get_sensor_data():
                 output = '{0:.2f} C,{1:.2f} hPa,{2:.2f} %RH'.format(
                     self.sensor.data.temperature,
@@ -72,8 +80,17 @@ class Bm680Controller:
                     print('{0},{1} Ohms'.format(
                         output,
                         self.sensor.data.gas_resistance))
-                    # self.gasAQI = tbd function of gas resistance
+                    
+                    try: 
+                        #self.gasAqi = math.log(self.sensor.gas_resistance) + 0.04 * self.humidity 
+                        self.gasAqi = self.aqiTracker.getIAQ(self.sensor.data)
+                        print("{0:.1f}%aq".format(self.gasAqi))
+                    except Exception as ex:
+                        print(ex)
+                        print("Gas sensor calibtrating, please wait")
                 else:
                     print(output)
-        except: 
-            print('error ready bm680 data')
+        except Exception as ex: 
+            print('error reading bm680 data')
+            print(ex)
+        print('------------------\n\n')
